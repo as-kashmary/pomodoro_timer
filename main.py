@@ -9,8 +9,11 @@ WORK_MIN = 25
 SHORT_BREAK_MIN = 5
 LONG_BREAK_MIN = 20
 reps=0
+timer=None;
 # ---------------------------- TIMER RESET ------------------------------- # 
-
+def reset():
+    window.after_cancel(timer)
+    canvas.itemconfig(canvas_t, text="00:00")
 # ---------------------------- TIMER MECHANISM ------------------------------- #
 
 def start_timer():
@@ -36,7 +39,8 @@ def count_down(count):
 
     canvas.itemconfig(canvas_t, text=count_show)
     if count_sec >0:
-        window.after(1000, count_down, count_sec - 1)
+        global timer;
+        timer=window.after(1000, count_down, count_sec - 1)
     else:
         start_timer();
 
@@ -64,7 +68,7 @@ tick=Label(text="✔",fg=GREEN,bg=YELLOW)
 tick.config(padx=5,pady=5)
 tick.grid(row=3,column=1)
 
-button2=Button(text="Reset",font=(FONT_NAME,10,"bold"))
+button2=Button(command=reset,text="Reset",font=(FONT_NAME,10,"bold"))
 button1.config(padx=1,pady=1)
 button2.grid(row=2,column=2);
 
